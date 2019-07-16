@@ -5,10 +5,11 @@ use euclid::Vector2D;
 use harfbuzz::sys::{
     hb_buffer_get_glyph_infos,
     hb_buffer_get_glyph_positions, hb_face_create, hb_face_destroy, hb_face_reference, hb_face_t,
-    hb_font_create, hb_font_destroy, hb_position_t, hb_shape,
+    hb_font_create, hb_font_destroy, hb_position_t, hb_shape_full,
 };
 use harfbuzz::sys::{HB_SCRIPT_DEVANAGARI};
 use harfbuzz::{Blob, Buffer, Direction, Language};
+use std::ptr;
 
 use crate::unicode_funcs::install_unicode_funcs;
 use crate::{FontRef};
@@ -56,10 +57,15 @@ pub fn layout_run(style: &TextStyle, font: &FontRef, text: &str) -> Layout {
     b.set_script(HB_SCRIPT_DEVANAGARI);
     b.set_language(Language::from_string("en_US"));
     let hb_face = HbFace::new(font);
+    dbg!(text);
     unsafe {
         let hb_font = hb_font_create(hb_face.hb_face);
-        hb_shape(hb_font, b.as_ptr(), std::ptr::null(), 0);
+        let fail = hb_shape_full(hb_font, b.as_ptr(), std::ptr::null(), 0, ptr::null()) == 0;
         hb_font_destroy(hb_font);
+        
+        if fail {
+            panic!("can't shape text");
+        }
         let mut n_glyph = 0;
         let glyph_infos = hb_buffer_get_glyph_infos(b.as_ptr(), &mut n_glyph);
         debug!("number of glyphs: {}", n_glyph);
