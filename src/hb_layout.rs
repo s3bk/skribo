@@ -5,13 +5,14 @@ use euclid::Vector2D;
 use harfbuzz::sys::{
     hb_buffer_get_glyph_infos,
     hb_buffer_get_glyph_positions, hb_face_create, hb_face_destroy, hb_face_reference, hb_face_t,
-    hb_font_create, hb_font_destroy, hb_position_t, hb_shape_full,
+    hb_font_create, hb_font_destroy, hb_position_t, hb_shape_full, hb_shape
 };
 use harfbuzz::{Blob, Buffer, Direction, Language};
 use harfbuzz::sys::{
     hb_glyph_info_get_glyph_flags, hb_script_t, HB_GLYPH_FLAG_UNSAFE_TO_BREAK,
     HB_MEMORY_MODE_READONLY, HB_SCRIPT_DEVANAGARI,
 };
+use std::ptr;
 
 use crate::session::{FragmentGlyph, LayoutFragment};
 use crate::unicode_funcs::install_unicode_funcs;
