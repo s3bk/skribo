@@ -11,11 +11,12 @@ readme = "README.md"
 categories = ["graphics", "text-processing"]
 
 [dependencies]
-harfbuzz = "0.3.1" #{ path = "../rust-harfbuzz/harfbuzz" }
-harfbuzz-sys = "0.3.2" # = { path = "../rust-harfbuzz/harfbuzz-sys" }
+harfbuzz = "0.3.1"
+harfbuzz-sys = "0.3.2"
 euclid = "0.19"
 unicode-normalization = "0.1.8"
 log = "0.4"
 
 [dependencies.font-kit]
-path = "../font-kit"
+git = "https://github.com/pcwalton/font-kit/"
+
