@@ -57,7 +57,6 @@ pub fn layout_run(style: &TextStyle, font: &FontRef, text: &str) -> Layout {
     b.set_script(HB_SCRIPT_DEVANAGARI);
     b.set_language(Language::from_string("en_US"));
     let hb_face = HbFace::new(font);
-    dbg!(text);
     unsafe {
         let hb_font = hb_font_create(hb_face.hb_face);
         let fail = hb_shape_full(hb_font, b.as_ptr(), std::ptr::null(), 0, ptr::null()) == 0;
